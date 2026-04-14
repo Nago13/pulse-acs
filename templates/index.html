@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pulse — Apoio ao ACS</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      font-size: 16px;
+      background: #fff;
+      color: #1a1a1a;
+      min-height: 100vh;
+    }
+
+    .tela {
+      display: none;
+      padding: 20px 16px 32px;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+    .tela.ativa { display: block; }
+
+    h1 {
+      font-size: 22px;
+      font-weight: 700;
+      color: #1b5e20;
+      margin-bottom: 20px;
+    }
+    h2 {
+      font-size: 18px;
+      font-weight: 600;
+      color: #1b5e20;
+      margin-bottom: 16px;
+    }
+
+    label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      color: #444;
+      margin-bottom: 4px;
+      margin-top: 14px;
+    }
+    label:first-of-type { margin-top: 0; }
+
+    input[type="text"],
+    input[type="number"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      border: 1.5px solid #ccc;
+      border-radius: 8px;
+      background: #fafafa;
+      outline: none;
+    }
+    input:focus, select:focus, textarea:focus {
+      border-color: #2e7d32;
+      background: #fff;
+    }
+    textarea { resize: vertical; min-height: 90px; }
+
+    .radio-group, .check-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 6px;
+    }
+    .radio-group label, .check-group label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 400;
+      margin-top: 0;
+      cursor: pointer;
+      font-size: 15px;
+    }
+
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 14px;
+      font-size: 17px;
+      font-weight: 600;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-top: 16px;
+      min-height: 52px;
+      transition: opacity 0.15s;
+    }
+    .btn:active { opacity: 0.8; }
+    .btn-verde  { background: #2e7d32; color: #fff; }
+    .btn-amarelo{ background: #f57f17; color: #fff; }
+    .btn-vermelho { background: #c62828; color: #fff; }
+    .btn-outline {
+      background: #fff;
+      color: #2e7d32;
+      border: 2px solid #2e7d32;
+    }
+    .btn-cinza {
+      background: #eeeeee;
+      color: #333;
+    }
+
+    /* ── Hipóteses ────────────────────────────── */
+    .hipoteses-box {
+      background: #e8f5e9;
+      border-left: 4px solid #2e7d32;
+      border-radius: 8px;
+      padding: 12px 14px;
+      margin-bottom: 18px;
+    }
+    .hipoteses-box p {
+      font-size: 13px;
+      font-weight: 600;
+      color: #555;
+      margin-bottom: 6px;
+    }
+    .hipoteses-box ul {
+      list-style: none;
+      padding: 0;
+    }
+    .hipoteses-box li {
+      font-size: 15px;
+      font-weight: 600;
+      color: #1b5e20;
+      padding: 2px 0;
+    }
+
+    /* ── Pergunta ─────────────────────────────── */
+    .pergunta-texto {
+      font-size: 20px;
+      font-weight: 600;
+      line-height: 1.4;
+      margin-bottom: 20px;
+      min-height: 60px;
+    }
+
+    .respostas-rapidas {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .btn-resposta {
+      padding: 14px 8px;
+      font-size: 16px;
+      font-weight: 600;
+      border: 2px solid #2e7d32;
+      border-radius: 10px;
+      background: #fff;
+      color: #2e7d32;
+      cursor: pointer;
+      min-height: 52px;
+      transition: background 0.12s, color 0.12s;
+    }
+    .btn-resposta.selecionado {
+      background: #2e7d32;
+      color: #fff;
+    }
+
+    .contador {
+      text-align: center;
+      font-size: 13px;
+      color: #888;
+      margin-bottom: 14px;
+    }
+
+    /* ── Cards de conduta ─────────────────────── */
+    .card-hipotese {
+      border: 1.5px solid #ddd;
+      border-radius: 10px;
+      padding: 14px;
+      margin-bottom: 10px;
+    }
+    .card-hipotese h3 { font-size: 16px; color: #1b5e20; margin-bottom: 4px; }
+    .card-hipotese p  { font-size: 14px; color: #555; line-height: 1.5; }
+
+    .urgencia-destaque {
+      border-radius: 10px;
+      padding: 16px;
+      margin: 14px 0;
+      font-size: 16px;
+      font-weight: 600;
+      color: #fff;
+    }
+    .urgencia-1 { background: #2e7d32; }
+    .urgencia-2 { background: #f57f17; }
+    .urgencia-3 { background: #c62828; }
+
+    .urgencia-bts {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+      margin-top: 10px;
+      margin-bottom: 6px;
+    }
+    .btn-urg {
+      padding: 12px 4px;
+      font-size: 14px;
+      font-weight: 700;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      min-height: 52px;
+      color: #fff;
+      opacity: 0.5;
+      transition: opacity 0.15s, transform 0.1s;
+    }
+    .btn-urg.selecionado { opacity: 1; transform: scale(1.04); }
+    .urg-verde   { background: #2e7d32; }
+    .urg-amarelo { background: #f57f17; }
+    .urg-vermelho{ background: #c62828; }
+
+    /* ── Tela 4 ───────────────────────────────── */
+    .confirmado-icone {
+      font-size: 64px;
+      text-align: center;
+      margin: 32px 0 12px;
+    }
+    .confirmado-titulo {
+      font-size: 22px;
+      font-weight: 700;
+      text-align: center;
+      color: #1b5e20;
+      margin-bottom: 10px;
+    }
+    .confirmado-sub {
+      font-size: 15px;
+      color: #666;
+      text-align: center;
+      margin-bottom: 30px;
+      line-height: 1.5;
+    }
+
+    .alerta {
+      background: #fff9c4;
+      border: 1.5px solid #f9a825;
+      border-radius: 8px;
+      padding: 12px 14px;
+      font-size: 15px;
+      color: #5d4037;
+      margin-top: 12px;
+      text-align: center;
+    }
+
+    .spinner {
+      display: inline-block;
+      width: 20px; height: 20px;
+      border: 3px solid #ccc;
+      border-top-color: #2e7d32;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      vertical-align: middle;
+      margin-right: 8px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .secao-titulo {
+      font-size: 13px;
+      font-weight: 700;
+      color: #888;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin: 20px 0 8px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════
+     TELA 1 — Dados do paciente
+══════════════════════════════════════════ -->
+<div id="tela-paciente" class="tela ativa">
+  <h1>Pulse — Novo Atendimento</h1>
+
+  <label for="nome">Nome do paciente</label>
+  <input type="text" id="nome" placeholder="Nome completo" autocomplete="off" />
+
+  <label for="idade">Idade</label>
+  <input type="number" id="idade" min="0" max="120" placeholder="Anos" />
+
+  <label>Sexo</label>
+  <div class="radio-group">
+    <label><input type="radio" name="sexo" value="M" /> Masculino</label>
+    <label><input type="radio" name="sexo" value="F" /> Feminino</label>
+  </div>
+
+  <label for="estado">Estado (UF)</label>
+  <select id="estado">
+    <option value="">Selecione...</option>
+    <option value="AC">AC — Acre</option>
+    <option value="AL">AL — Alagoas</option>
+    <option value="AM">AM — Amazonas</option>
+    <option value="AP">AP — Amapá</option>
+    <option value="BA">BA — Bahia</option>
+    <option value="CE">CE — Ceará</option>
+    <option value="DF">DF — Distrito Federal</option>
+    <option value="ES">ES — Espírito Santo</option>
+    <option value="GO">GO — Goiás</option>
+    <option value="MA">MA — Maranhão</option>
+    <option value="MG">MG — Minas Gerais</option>
+    <option value="MS">MS — Mato Grosso do Sul</option>
+    <option value="MT">MT — Mato Grosso</option>
+    <option value="PA">PA — Pará</option>
+    <option value="PB">PB — Paraíba</option>
+    <option value="PE">PE — Pernambuco</option>
+    <option value="PI">PI — Piauí</option>
+    <option value="PR">PR — Paraná</option>
+    <option value="RJ">RJ — Rio de Janeiro</option>
+    <option value="RN">RN — Rio Grande do Norte</option>
+    <option value="RO">RO — Rondônia</option>
+    <option value="RR">RR — Roraima</option>
+    <option value="RS">RS — Rio Grande do Sul</option>
+    <option value="SC">SC — Santa Catarina</option>
+    <option value="SE">SE — Sergipe</option>
+    <option value="SP">SP — São Paulo</option>
+    <option value="TO">TO — Tocantins</option>
+  </select>
+
+  <label>Condições crônicas</label>
+  <div class="check-group">
+    <label><input type="checkbox" value="Hipertensão" /> Hipertensão</label>
+    <label><input type="checkbox" value="Diabetes" /> Diabetes</label>
+    <label><input type="checkbox" value="Asma" /> Asma</label>
+    <label><input type="checkbox" value="Cardiopatia" /> Cardiopatia</label>
+    <label><input type="checkbox" value="Nenhuma" id="cb-nenhuma" /> Nenhuma</label>
+  </div>
+
+  <label for="observacao">O que você observa no paciente?</label>
+  <textarea id="observacao" rows="4" placeholder="Descreva os sinais e sintomas como você está vendo..."></textarea>
+
+  <button class="btn btn-verde" id="btn-iniciar" onclick="iniciarAtendimento()">
+    Iniciar atendimento
+  </button>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     TELA 2 — Entrevista
+══════════════════════════════════════════ -->
+<div id="tela-entrevista" class="tela">
+  <h2>Entrevista</h2>
+
+  <div class="hipoteses-box">
+    <p>Hipóteses em avaliação</p>
+    <ul id="lista-hipoteses"></ul>
+  </div>
+
+  <div class="contador" id="contador-perguntas">Pergunta 1 de —</div>
+
+  <div class="pergunta-texto" id="texto-pergunta">Carregando...</div>
+
+  <div class="respostas-rapidas">
+    <button class="btn-resposta" onclick="selecionarResposta('Sim')">Sim</button>
+    <button class="btn-resposta" onclick="selecionarResposta('Não')">Não</button>
+    <button class="btn-resposta" onclick="selecionarResposta('Não sei')">Não sei</button>
+    <button class="btn-resposta" onclick="toggleDescricao()">Descrever</button>
+  </div>
+
+  <div id="area-descricao" style="display:none; margin-top:8px;">
+    <textarea id="resposta-livre" rows="3" placeholder="Descreva com suas palavras..."></textarea>
+  </div>
+
+  <button class="btn btn-verde" onclick="responderEAtualizar()">Responder</button>
+  <button class="btn btn-outline" onclick="irParaConduta()">Encerrar entrevista</button>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     TELA 3 — Conduta
+══════════════════════════════════════════ -->
+<div id="tela-conduta" class="tela">
+  <h2>Conduta</h2>
+
+  <div class="secao-titulo">Hipóteses finais</div>
+  <div id="cards-hipoteses"></div>
+
+  <div class="secao-titulo">Condutas sugeridas</div>
+  <div id="conduta-destaque" class="urgencia-destaque urgencia-1"></div>
+
+  <div class="secao-titulo">Confirmar urgência</div>
+  <div class="urgencia-bts">
+    <button class="btn-urg urg-verde"    onclick="selecionarUrgencia(1, this)">Observar</button>
+    <button class="btn-urg urg-amarelo"  onclick="selecionarUrgencia(2, this)">UBS</button>
+    <button class="btn-urg urg-vermelho" onclick="selecionarUrgencia(3, this)">Emergência</button>
+  </div>
+
+  <div class="secao-titulo">O que você fez?</div>
+  <textarea id="conduta-real" rows="4" placeholder="Registre a conduta tomada pelo ACS..."></textarea>
+
+  <button class="btn btn-verde" onclick="registrarAtendimento()">Registrar atendimento</button>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     TELA 4 — Confirmado
+══════════════════════════════════════════ -->
+<div id="tela-confirmado" class="tela">
+  <div class="confirmado-icone">&#10003;</div>
+  <div class="confirmado-titulo">Atendimento registrado<br>com sucesso</div>
+  <div class="confirmado-sub">
+    Será enviado à UBS quando houver<br>conexão com a internet.
+  </div>
+
+  <button class="btn btn-verde" onclick="novoAtendimento()">Novo atendimento</button>
+  <button class="btn btn-cinza" onclick="sincronizarAgora()">Sincronizar agora</button>
+  <div id="alerta-sync"></div>
+</div>
+
+
+<script>
+  // ── Estado global da sessão ──────────────────────
+  let id_visita = null;
+  let paciente = null;
+  let observacao_inicial = null;
+  let respostas_anteriores = [];
+  let pergunta_atual_index = 0;
+  let perguntas_disponiveis = [];
+  let urgencia_confirmada = null;
+  let condutas_sugeridas = [];
+  let hipoteses_finais = [];
+  let resposta_selecionada = null;
+
+  // ── Navegação entre telas ────────────────────────
+  function mostrarTela(id) {
+    document.querySelectorAll('.tela').forEach(t => t.classList.remove('ativa'));
+    document.getElementById(id).classList.add('ativa');
+  }
+
+  // ── Tela 1: Iniciar atendimento ──────────────────
+  async function iniciarAtendimento() {
+    const nome  = document.getElementById('nome').value.trim();
+    const idade = parseInt(document.getElementById('idade').value);
+    const sexo  = document.querySelector('input[name="sexo"]:checked')?.value;
+    const estado = document.getElementById('estado').value;
+    const obs   = document.getElementById('observacao').value.trim();
+
+    if (!nome || !idade || !sexo || !estado || !obs) {
+      alert('Preencha todos os campos antes de continuar.');
+      return;
+    }
+
+    const condicoes = [...document.querySelectorAll('.check-group input:checked')]
+      .map(cb => cb.value);
+
+    paciente = { nome, idade, sexo, estado, condicoes_cronicas: condicoes };
+    observacao_inicial = obs;
+    respostas_anteriores = [];
+    pergunta_atual_index = 0;
+    perguntas_disponiveis = [];
+    resposta_selecionada = null;
+
+    const btn = document.getElementById('btn-iniciar');
+    btn.innerHTML = '<span class="spinner"></span> Aguarde...';
+    btn.disabled = true;
+
+    try {
+      const res = await fetch('/iniciar', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ paciente, observacao_inicial }),
+      });
+      const dados = await res.json();
+      if (dados.erro) throw new Error(dados.erro);
+
+      id_visita = dados.id_visita;
+      perguntas_disponiveis = dados.proximas_perguntas || [];
+      atualizarHipoteses(dados.hipoteses || []);
+      mostrarPerguntaAtual();
+      mostrarTela('tela-entrevista');
+    } catch (e) {
+      alert('Erro ao iniciar: ' + e.message);
+    } finally {
+      btn.innerHTML = 'Iniciar atendimento';
+      btn.disabled = false;
+    }
+  }
+
+  // ── Tela 2: Hipóteses e perguntas ───────────────
+  function atualizarHipoteses(hipoteses) {
+    const ul = document.getElementById('lista-hipoteses');
+    ul.innerHTML = hipoteses.map(h => `<li>${h}</li>`).join('');
+  }
+
+  function mostrarPerguntaAtual() {
+    if (perguntas_disponiveis.length === 0) {
+      document.getElementById('texto-pergunta').textContent =
+        'Sem mais perguntas disponíveis. Você pode encerrar a entrevista.';
+      document.getElementById('contador-perguntas').textContent = '— Perguntas esgotadas —';
+      return;
+    }
+    const pergunta = perguntas_disponiveis[0];
+    document.getElementById('texto-pergunta').textContent = pergunta;
+    document.getElementById('contador-perguntas').textContent =
+      `Pergunta ${respostas_anteriores.length + 1}`;
+
+    document.querySelectorAll('.btn-resposta').forEach(b => b.classList.remove('selecionado'));
+    document.getElementById('area-descricao').style.display = 'none';
+    document.getElementById('resposta-livre').value = '';
+    resposta_selecionada = null;
+  }
+
+  function selecionarResposta(valor) {
+    resposta_selecionada = valor;
+    document.querySelectorAll('.btn-resposta').forEach(b => {
+      b.classList.toggle('selecionado', b.textContent === valor);
+    });
+    document.getElementById('area-descricao').style.display = 'none';
+  }
+
+  function toggleDescricao() {
+    const area = document.getElementById('area-descricao');
+    const visivel = area.style.display !== 'none';
+    area.style.display = visivel ? 'none' : 'block';
+    if (!visivel) resposta_selecionada = '__livre__';
+  }
+
+  async function responderEAtualizar() {
+    let resposta = resposta_selecionada;
+    if (resposta === '__livre__') {
+      resposta = document.getElementById('resposta-livre').value.trim();
+      if (!resposta) { alert('Descreva a resposta antes de continuar.'); return; }
+    }
+    if (!resposta) { alert('Selecione ou descreva uma resposta.'); return; }
+
+    const pergunta = perguntas_disponiveis[0];
+    respostas_anteriores.push({ pergunta, resposta });
+    perguntas_disponiveis.shift();
+
+    try {
+      const res = await fetch('/atualizar', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id_visita, observacao_inicial, respostas_anteriores, paciente }),
+      });
+      const dados = await res.json();
+      if (dados.erro) throw new Error(dados.erro);
+
+      atualizarHipoteses(dados.hipoteses || []);
+      hipoteses_finais = dados.hipoteses || [];
+      condutas_sugeridas = dados.condutas_sugeridas || [];
+      urgencia_confirmada = dados.nivel_urgencia_sugerido || 1;
+
+      const novas = (dados.proximas_perguntas || []).filter(
+        p => !perguntas_disponiveis.includes(p)
+      );
+      perguntas_disponiveis.push(...novas);
+      mostrarPerguntaAtual();
+    } catch (e) {
+      alert('Erro ao atualizar: ' + e.message);
+      respostas_anteriores.pop();
+      perguntas_disponiveis.unshift(pergunta);
+    }
+  }
+
+  // ── Tela 3: Conduta ──────────────────────────────
+  function irParaConduta() {
+    const cards = document.getElementById('cards-hipoteses');
+    cards.innerHTML = hipoteses_finais.map(h =>
+      `<div class="card-hipotese"><h3>${h}</h3></div>`
+    ).join('');
+
+    const destaque = document.getElementById('conduta-destaque');
+    const cls = urgencia_confirmada === 3 ? 'urgencia-3'
+              : urgencia_confirmada === 2 ? 'urgencia-2' : 'urgencia-1';
+    destaque.className = `urgencia-destaque ${cls}`;
+    destaque.textContent = condutas_sugeridas[0] || 'Avaliar com a equipe de saúde.';
+
+    document.querySelectorAll('.btn-urg').forEach(b => b.classList.remove('selecionado'));
+    const idx = urgencia_confirmada === 3 ? 2 : urgencia_confirmada === 2 ? 1 : 0;
+    document.querySelectorAll('.btn-urg')[idx]?.classList.add('selecionado');
+
+    document.getElementById('conduta-real').value = '';
+    mostrarTela('tela-conduta');
+  }
+
+  function selecionarUrgencia(nivel, btn) {
+    urgencia_confirmada = nivel;
+    document.querySelectorAll('.btn-urg').forEach(b => b.classList.remove('selecionado'));
+    btn.classList.add('selecionado');
+
+    const destaque = document.getElementById('conduta-destaque');
+    destaque.className = `urgencia-destaque ${nivel === 3 ? 'urgencia-3' : nivel === 2 ? 'urgencia-2' : 'urgencia-1'}`;
+  }
+
+  async function registrarAtendimento() {
+    const condutaReal = document.getElementById('conduta-real').value.trim();
+    if (!condutaReal) { alert('Registre o que você fez antes de continuar.'); return; }
+    if (!urgencia_confirmada) { alert('Confirme o nível de urgência.'); return; }
+
+    const dados = {
+      id_visita,
+      paciente,
+      observacao_inicial,
+      respostas_anteriores,
+      hipoteses: hipoteses_finais,
+      condutas_sugeridas,
+      urgencia_confirmada,
+      conduta_real: condutaReal,
+    };
+
+    try {
+      const res = await fetch('/fechar', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(dados),
+      });
+      const resp = await res.json();
+      if (resp.erro) throw new Error(resp.erro);
+      mostrarTela('tela-confirmado');
+    } catch (e) {
+      alert('Erro ao registrar: ' + e.message);
+    }
+  }
+
+  // ── Tela 4: Confirmado ───────────────────────────
+  function novoAtendimento() {
+    document.getElementById('nome').value = '';
+    document.getElementById('idade').value = '';
+    document.querySelector('input[name="sexo"]:checked') &&
+      (document.querySelector('input[name="sexo"]:checked').checked = false);
+    document.getElementById('estado').value = '';
+    document.getElementById('observacao').value = '';
+    document.querySelectorAll('.check-group input').forEach(cb => cb.checked = false);
+    document.getElementById('alerta-sync').innerHTML = '';
+
+    id_visita = null; paciente = null; observacao_inicial = null;
+    respostas_anteriores = []; perguntas_disponiveis = [];
+    pergunta_atual_index = 0; urgencia_confirmada = null;
+    condutas_sugeridas = []; hipoteses_finais = [];
+
+    mostrarTela('tela-paciente');
+  }
+
+  async function sincronizarAgora() {
+    const el = document.getElementById('alerta-sync');
+    el.innerHTML = '<div class="alerta"><span class="spinner"></span> Sincronizando...</div>';
+    try {
+      const res = await fetch('/sincronizar', { method: 'POST' });
+      const dados = await res.json();
+      if (dados.erro) throw new Error(dados.erro);
+      el.innerHTML = `<div class="alerta">${dados.sincronizadas} visita(s) sincronizada(s) com sucesso.</div>`;
+    } catch (e) {
+      el.innerHTML = `<div class="alerta">Erro: ${e.message}</div>`;
+    }
+  }
+
+  // Nenhuma ↔ demais checkboxes
+  document.getElementById('cb-nenhuma').addEventListener('change', function() {
+    if (this.checked) {
+      document.querySelectorAll('.check-group input:not(#cb-nenhuma)').forEach(cb => cb.checked = false);
+    }
+  });
+  document.querySelectorAll('.check-group input:not(#cb-nenhuma)').forEach(cb => {
+    cb.addEventListener('change', () => {
+      if (cb.checked) document.getElementById('cb-nenhuma').checked = false;
+    });
+  });
+</script>
+</body>
+</html>
