@@ -85,23 +85,23 @@ def sincronizar():
             data_hora = dados.get("data_hora", "")
 
             resumo = (
-                f"VISITA PULSE — {data_hora}\n"
+                f"PULSE VISIT — {data_hora}\n"
                 f"{'=' * 40}\n"
-                f"Paciente : {paciente.get('nome', '')} | "
-                f"Idade: {paciente.get('idade', '')} | "
-                f"Sexo: {paciente.get('sexo', '')} | "
-                f"UF: {paciente.get('estado', '')}\n"
-                f"Condições crônicas: {', '.join(paciente.get('condicoes_cronicas', []))}\n\n"
-                f"Observação inicial: {dados.get('observacao_inicial', '')}\n\n"
-                f"Hipóteses: {', '.join(hipoteses)}\n\n"
-                f"Conduta registrada pelo ACS:\n{conduta_real}\n\n"
-                f"Urgência confirmada: {urgencia}\n"
+                f"Patient: {paciente.get('nome', '')} | "
+                f"Age: {paciente.get('idade', '')} | "
+                f"Sex: {paciente.get('sexo', '')} | "
+                f"State: {paciente.get('estado', '')}\n"
+                f"Chronic conditions: {', '.join(paciente.get('condicoes_cronicas', []))}\n\n"
+                f"Initial observation: {dados.get('observacao_inicial', '')}\n\n"
+                f"Hypotheses: {', '.join(hipoteses)}\n\n"
+                f"Action recorded by health worker:\n{conduta_real}\n\n"
+                f"Confirmed urgency: {urgencia}\n"
                 f"{'=' * 40}\n"
-                f"Respostas coletadas:\n"
+                f"Collected responses:\n"
             )
             for r in dados.get("respostas_anteriores", []):
-                resumo += f"  P: {r.get('pergunta', '')}\n"
-                resumo += f"  R: {r.get('resposta', '')}\n\n"
+                resumo += f"  Q: {r.get('pergunta', '')}\n"
+                resumo += f"  A: {r.get('resposta', '')}\n\n"
 
             txt_path = SYNC_DIR / f"{dados['id_visita']}.txt"
             txt_path.write_text(resumo, encoding="utf-8")

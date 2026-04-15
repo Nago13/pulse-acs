@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Pulse — Apoio ao ACS</title>
+  <title>Pulse — Community Health Copilot</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -301,23 +301,23 @@
      TELA 1 — Dados do paciente
 ══════════════════════════════════════════ -->
 <div id="tela-paciente" class="tela ativa">
-  <h1>Pulse — Novo Atendimento</h1>
+  <h1>Pulse — New Visit</h1>
 
-  <label for="nome">Nome do paciente</label>
-  <input type="text" id="nome" placeholder="Nome completo" autocomplete="off" />
+  <label for="nome">Patient name</label>
+  <input type="text" id="nome" placeholder="Full name" autocomplete="off" />
 
-  <label for="idade">Idade</label>
-  <input type="number" id="idade" min="0" max="120" placeholder="Anos" />
+  <label for="idade">Age</label>
+  <input type="number" id="idade" min="0" max="120" placeholder="Years" />
 
-  <label>Sexo</label>
+  <label>Sex</label>
   <div class="radio-group">
-    <label><input type="radio" name="sexo" value="M" /> Masculino</label>
-    <label><input type="radio" name="sexo" value="F" /> Feminino</label>
+    <label><input type="radio" name="sexo" value="M" /> Male</label>
+    <label><input type="radio" name="sexo" value="F" /> Female</label>
   </div>
 
-  <label for="estado">Estado (UF)</label>
+  <label for="estado">State (UF)</label>
   <select id="estado">
-    <option value="">Selecione...</option>
+    <option value="">Select...</option>
     <option value="AC">AC — Acre</option>
     <option value="AL">AL — Alagoas</option>
     <option value="AM">AM — Amazonas</option>
@@ -347,20 +347,20 @@
     <option value="TO">TO — Tocantins</option>
   </select>
 
-  <label>Condições crônicas</label>
+  <label>Chronic conditions</label>
   <div class="check-group">
-    <label><input type="checkbox" value="Hipertensão" /> Hipertensão</label>
+    <label><input type="checkbox" value="Hypertension" /> Hypertension</label>
     <label><input type="checkbox" value="Diabetes" /> Diabetes</label>
-    <label><input type="checkbox" value="Asma" /> Asma</label>
-    <label><input type="checkbox" value="Cardiopatia" /> Cardiopatia</label>
-    <label><input type="checkbox" value="Nenhuma" id="cb-nenhuma" /> Nenhuma</label>
+    <label><input type="checkbox" value="Asthma" /> Asthma</label>
+    <label><input type="checkbox" value="Heart disease" /> Heart disease</label>
+    <label><input type="checkbox" value="None" id="cb-nenhuma" /> None</label>
   </div>
 
-  <label for="observacao">O que você observa no paciente?</label>
-  <textarea id="observacao" rows="4" placeholder="Descreva os sinais e sintomas como você está vendo..."></textarea>
+  <label for="observacao">What do you observe in the patient?</label>
+  <textarea id="observacao" rows="4" placeholder="Describe the signs and symptoms as you observe them..."></textarea>
 
   <button class="btn btn-verde" id="btn-iniciar" onclick="iniciarAtendimento()">
-    Iniciar atendimento
+    Start visit
   </button>
 </div>
 
@@ -369,30 +369,30 @@
      TELA 2 — Entrevista
 ══════════════════════════════════════════ -->
 <div id="tela-entrevista" class="tela">
-  <h2>Entrevista</h2>
+  <h2>Interview</h2>
 
   <div class="hipoteses-box">
-    <p>Hipóteses em avaliação</p>
+    <p>Hypotheses under evaluation</p>
     <ul id="lista-hipoteses"></ul>
   </div>
 
-  <div class="contador" id="contador-perguntas">Pergunta 1 de —</div>
+  <div class="contador" id="contador-perguntas">Question 1</div>
 
-  <div class="pergunta-texto" id="texto-pergunta">Carregando...</div>
+  <div class="pergunta-texto" id="texto-pergunta">Loading...</div>
 
   <div class="respostas-rapidas">
-    <button class="btn-resposta" onclick="selecionarResposta('Sim')">Sim</button>
-    <button class="btn-resposta" onclick="selecionarResposta('Não')">Não</button>
-    <button class="btn-resposta" onclick="selecionarResposta('Não sei')">Não sei</button>
-    <button class="btn-resposta" onclick="toggleDescricao()">Descrever</button>
+    <button class="btn-resposta" onclick="selecionarResposta('Yes')">Yes</button>
+    <button class="btn-resposta" onclick="selecionarResposta('No')">No</button>
+    <button class="btn-resposta" onclick="selecionarResposta('Not sure')">Not sure</button>
+    <button class="btn-resposta" onclick="toggleDescricao()">Describe</button>
   </div>
 
   <div id="area-descricao" style="display:none; margin-top:8px;">
-    <textarea id="resposta-livre" rows="3" placeholder="Descreva com suas palavras..."></textarea>
+    <textarea id="resposta-livre" rows="3" placeholder="Describe in your own words..."></textarea>
   </div>
 
-  <button class="btn btn-verde" onclick="responderEAtualizar()">Responder</button>
-  <button class="btn btn-outline" onclick="irParaConduta()">Encerrar entrevista</button>
+  <button class="btn btn-verde" onclick="responderEAtualizar()">Submit answer</button>
+  <button class="btn btn-outline" onclick="irParaConduta()">End interview</button>
 </div>
 
 
@@ -400,25 +400,25 @@
      TELA 3 — Conduta
 ══════════════════════════════════════════ -->
 <div id="tela-conduta" class="tela">
-  <h2>Conduta</h2>
+  <h2>Course of Action</h2>
 
-  <div class="secao-titulo">Hipóteses finais</div>
+  <div class="secao-titulo">Final hypotheses</div>
   <div id="cards-hipoteses"></div>
 
-  <div class="secao-titulo">Condutas sugeridas</div>
+  <div class="secao-titulo">Suggested actions</div>
   <div id="conduta-destaque" class="urgencia-destaque urgencia-1"></div>
 
-  <div class="secao-titulo">Confirmar urgência</div>
+  <div class="secao-titulo">Confirm urgency level</div>
   <div class="urgencia-bts">
-    <button class="btn-urg urg-verde"    onclick="selecionarUrgencia(1, this)">Observar</button>
-    <button class="btn-urg urg-amarelo"  onclick="selecionarUrgencia(2, this)">UBS</button>
-    <button class="btn-urg urg-vermelho" onclick="selecionarUrgencia(3, this)">Emergência</button>
+    <button class="btn-urg urg-verde"    onclick="selecionarUrgencia(1, this)">Monitor</button>
+    <button class="btn-urg urg-amarelo"  onclick="selecionarUrgencia(2, this)">Health Center</button>
+    <button class="btn-urg urg-vermelho" onclick="selecionarUrgencia(3, this)">Emergency</button>
   </div>
 
-  <div class="secao-titulo">O que você fez?</div>
-  <textarea id="conduta-real" rows="4" placeholder="Registre a conduta tomada pelo ACS..."></textarea>
+  <div class="secao-titulo">What did you do?</div>
+  <textarea id="conduta-real" rows="4" placeholder="Record the action taken by the health worker..."></textarea>
 
-  <button class="btn btn-verde" onclick="registrarAtendimento()">Registrar atendimento</button>
+  <button class="btn btn-verde" onclick="registrarAtendimento()">Save visit</button>
 </div>
 
 
@@ -427,13 +427,13 @@
 ══════════════════════════════════════════ -->
 <div id="tela-confirmado" class="tela">
   <div class="confirmado-icone">&#10003;</div>
-  <div class="confirmado-titulo">Atendimento registrado<br>com sucesso</div>
+  <div class="confirmado-titulo">Visit recorded<br>successfully</div>
   <div class="confirmado-sub">
-    Será enviado à UBS quando houver<br>conexão com a internet.
+    It will be sent to the health center<br>when internet is available.
   </div>
 
-  <button class="btn btn-verde" onclick="novoAtendimento()">Novo atendimento</button>
-  <button class="btn btn-cinza" onclick="sincronizarAgora()">Sincronizar agora</button>
+  <button class="btn btn-verde" onclick="novoAtendimento()">New visit</button>
+  <button class="btn btn-cinza" onclick="sincronizarAgora()">Sync now</button>
   <div id="alerta-sync"></div>
 </div>
 
@@ -467,7 +467,7 @@
     const obs   = document.getElementById('observacao').value.trim();
 
     if (!nome || !idade || !sexo || !estado || !obs) {
-      alert('Preencha todos os campos antes de continuar.');
+      alert('Please fill in all fields before continuing.');
       return;
     }
 
@@ -482,7 +482,7 @@
     resposta_selecionada = null;
 
     const btn = document.getElementById('btn-iniciar');
-    btn.innerHTML = '<span class="spinner"></span> Aguarde...';
+    btn.innerHTML = '<span class="spinner"></span> Please wait...';
     btn.disabled = true;
 
     try {
@@ -501,18 +501,18 @@
       mostrarPerguntaAtual();
       mostrarTela('tela-entrevista');
     } catch (e) {
-      alert('Erro ao iniciar: ' + e.message);
+      alert('Error starting visit: ' + e.message);
     } finally {
-      btn.innerHTML = 'Iniciar atendimento';
+      btn.innerHTML = 'Start visit';
       btn.disabled = false;
     }
   }
 
   // ── Tela 2: Hipóteses e perguntas ───────────────
   function badgeHTML(fonte, validado_por) {
-    if (validado_por) return `<span class="badge badge-azul">Validado ✓</span>`;
-    if (fonte === 'MS-CAB' || fonte === 'MS-GVS') return `<span class="badge badge-verde">Min. Saúde</span>`;
-    return `<span class="badge badge-amarelo">Não validado</span>`;
+    if (validado_por) return `<span class="badge badge-azul">Validated ✓</span>`;
+    if (fonte === 'MS-CAB' || fonte === 'MS-GVS') return `<span class="badge badge-verde">Min. of Health</span>`;
+    return `<span class="badge badge-amarelo">Not validated</span>`;
   }
 
   function atualizarHipoteses(hipoteses, detalhadas) {
@@ -529,14 +529,14 @@
   function mostrarPerguntaAtual() {
     if (perguntas_disponiveis.length === 0) {
       document.getElementById('texto-pergunta').textContent =
-        'Sem mais perguntas disponíveis. Você pode encerrar a entrevista.';
-      document.getElementById('contador-perguntas').textContent = '— Perguntas esgotadas —';
+        'No more questions available. You may end the interview.';
+      document.getElementById('contador-perguntas').textContent = '— Questions exhausted —';
       return;
     }
     const pergunta = perguntas_disponiveis[0];
     document.getElementById('texto-pergunta').textContent = pergunta;
     document.getElementById('contador-perguntas').textContent =
-      `Pergunta ${respostas_anteriores.length + 1}`;
+      `Question ${respostas_anteriores.length + 1}`;
 
     document.querySelectorAll('.btn-resposta').forEach(b => b.classList.remove('selecionado'));
     document.getElementById('area-descricao').style.display = 'none';
@@ -563,9 +563,9 @@
     let resposta = resposta_selecionada;
     if (resposta === '__livre__') {
       resposta = document.getElementById('resposta-livre').value.trim();
-      if (!resposta) { alert('Descreva a resposta antes de continuar.'); return; }
+      if (!resposta) { alert('Please describe the response before continuing.'); return; }
     }
-    if (!resposta) { alert('Selecione ou descreva uma resposta.'); return; }
+    if (!resposta) { alert('Please select or describe a response.'); return; }
 
     const pergunta = perguntas_disponiveis[0];
     respostas_anteriores.push({ pergunta, resposta });
@@ -592,7 +592,7 @@
       perguntas_disponiveis.push(...novas);
       mostrarPerguntaAtual();
     } catch (e) {
-      alert('Erro ao atualizar: ' + e.message);
+      alert('Error updating: ' + e.message);
       respostas_anteriores.pop();
       perguntas_disponiveis.unshift(pergunta);
     }
@@ -612,7 +612,7 @@
     const cls = urgencia_confirmada === 3 ? 'urgencia-3'
               : urgencia_confirmada === 2 ? 'urgencia-2' : 'urgencia-1';
     destaque.className = `urgencia-destaque ${cls}`;
-    destaque.textContent = condutas_sugeridas[0] || 'Avaliar com a equipe de saúde.';
+    destaque.textContent = condutas_sugeridas[0] || 'Evaluate with the healthcare team.';
 
     document.querySelectorAll('.btn-urg').forEach(b => b.classList.remove('selecionado'));
     const idx = urgencia_confirmada === 3 ? 2 : urgencia_confirmada === 2 ? 1 : 0;
@@ -633,8 +633,8 @@
 
   async function registrarAtendimento() {
     const condutaReal = document.getElementById('conduta-real').value.trim();
-    if (!condutaReal) { alert('Registre o que você fez antes de continuar.'); return; }
-    if (!urgencia_confirmada) { alert('Confirme o nível de urgência.'); return; }
+    if (!condutaReal) { alert('Please record what you did before continuing.'); return; }
+    if (!urgencia_confirmada) { alert('Please confirm the urgency level.'); return; }
 
     const dados = {
       id_visita,
@@ -657,7 +657,7 @@
       if (resp.erro) throw new Error(resp.erro);
       mostrarTela('tela-confirmado');
     } catch (e) {
-      alert('Erro ao registrar: ' + e.message);
+      alert('Error saving: ' + e.message);
     }
   }
 
@@ -683,14 +683,14 @@
 
   async function sincronizarAgora() {
     const el = document.getElementById('alerta-sync');
-    el.innerHTML = '<div class="alerta"><span class="spinner"></span> Sincronizando...</div>';
+    el.innerHTML = '<div class="alerta"><span class="spinner"></span> Syncing...</div>';
     try {
       const res = await fetch('/sincronizar', { method: 'POST' });
       const dados = await res.json();
       if (dados.erro) throw new Error(dados.erro);
-      el.innerHTML = `<div class="alerta">${dados.sincronizadas} visita(s) sincronizada(s) com sucesso.</div>`;
+      el.innerHTML = `<div class="alerta">${dados.sincronizadas} visit(s) synced successfully.</div>`;
     } catch (e) {
-      el.innerHTML = `<div class="alerta">Erro: ${e.message}</div>`;
+      el.innerHTML = `<div class="alerta">Error: ${e.message}</div>`;
     }
   }
 

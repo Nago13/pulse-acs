@@ -106,4 +106,4 @@ def fechar_visita(dados_visita: dict) -> dict:
     caminho = DATA_DIR / f"{dados_visita['id_visita']}.json"
     caminho.write_text(json.dumps(dados_visita, ensure_ascii=False, indent=2), encoding="utf-8")
 
-    return {"status": "salvo", "caminho": str(caminho)}
+    return {"status": "saved", "caminho": str(caminho)}
