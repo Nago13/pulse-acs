@@ -23,12 +23,18 @@ def iniciar_visita(paciente: dict, observacao_inicial: str) -> dict:
         resultados = client.points.search(COLECAO, vetor, limit=3)
 
     hipoteses = []
+    hipoteses_detalhadas = []
     perguntas_vistas = set()
     proximas_perguntas = []
 
     for r in resultados:
         payload = r.payload
         hipoteses.append(payload["nome"])
+        hipoteses_detalhadas.append({
+            "nome": payload["nome"],
+            "fonte": payload.get("fonte", ""),
+            "validado_por": payload.get("validado_por"),
+        })
         for pergunta in payload.get("perguntas_chave", []):
             if pergunta not in perguntas_vistas and len(proximas_perguntas) < 3:
                 proximas_perguntas.append(pergunta)
@@ -37,6 +43,7 @@ def iniciar_visita(paciente: dict, observacao_inicial: str) -> dict:
     return {
         "id_visita": str(uuid.uuid4()),
         "hipoteses": hipoteses,
+        "hipoteses_detalhadas": hipoteses_detalhadas,
         "proximas_perguntas": proximas_perguntas,
         "observacao_inicial": observacao_inicial,
     }
@@ -58,6 +65,7 @@ def atualizar_visita(
     perguntas_ja_feitas = {r["pergunta"] for r in respostas_anteriores}
 
     hipoteses = []
+    hipoteses_detalhadas = []
     condutas_sugeridas = []
     nivel_urgencia_sugerido = 0
     perguntas_vistas = set()
@@ -66,6 +74,11 @@ def atualizar_visita(
     for r in resultados:
         payload = r.payload
         hipoteses.append(payload["nome"])
+        hipoteses_detalhadas.append({
+            "nome": payload["nome"],
+            "fonte": payload.get("fonte", ""),
+            "validado_por": payload.get("validado_por"),
+        })
         condutas_sugeridas.append(payload["conduta_sugerida"])
         nivel_urgencia_sugerido = max(nivel_urgencia_sugerido, payload.get("urgencia", 1))
         for pergunta in payload.get("perguntas_chave", []):
@@ -79,6 +92,7 @@ def atualizar_visita(
 
     return {
         "hipoteses": hipoteses,
+        "hipoteses_detalhadas": hipoteses_detalhadas,
         "condutas_sugeridas": condutas_sugeridas,
         "nivel_urgencia_sugerido": nivel_urgencia_sugerido,
         "proximas_perguntas": proximas_perguntas,

@@ -130,7 +130,23 @@
       font-weight: 600;
       color: #1b5e20;
       padding: 2px 0;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      flex-wrap: wrap;
     }
+
+    .badge {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 7px;
+      border-radius: 20px;
+      white-space: nowrap;
+      line-height: 1.5;
+    }
+    .badge-verde  { background: #c8e6c9; color: #1b5e20; }
+    .badge-amarelo{ background: #fff9c4; color: #7b5e00; border: 1px solid #f9a825; }
+    .badge-azul   { background: #e3f2fd; color: #0d47a1; }
 
     /* ── Pergunta ─────────────────────────────── */
     .pergunta-texto {
@@ -178,7 +194,15 @@
       padding: 14px;
       margin-bottom: 10px;
     }
-    .card-hipotese h3 { font-size: 16px; color: #1b5e20; margin-bottom: 4px; }
+    .card-hipotese h3 {
+      font-size: 16px;
+      color: #1b5e20;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      flex-wrap: wrap;
+    }
     .card-hipotese p  { font-size: 14px; color: #555; line-height: 1.5; }
 
     .urgencia-destaque {
@@ -425,6 +449,7 @@
   let urgencia_confirmada = null;
   let condutas_sugeridas = [];
   let hipoteses_finais = [];
+  let hipoteses_detalhadas_finais = [];
   let resposta_selecionada = null;
 
   // ── Navegação entre telas ────────────────────────
@@ -471,7 +496,8 @@
 
       id_visita = dados.id_visita;
       perguntas_disponiveis = dados.proximas_perguntas || [];
-      atualizarHipoteses(dados.hipoteses || []);
+      hipoteses_detalhadas_finais = dados.hipoteses_detalhadas || [];
+      atualizarHipoteses(dados.hipoteses || [], dados.hipoteses_detalhadas || []);
       mostrarPerguntaAtual();
       mostrarTela('tela-entrevista');
     } catch (e) {
@@ -483,9 +509,21 @@
   }
 
   // ── Tela 2: Hipóteses e perguntas ───────────────
-  function atualizarHipoteses(hipoteses) {
+  function badgeHTML(fonte, validado_por) {
+    if (validado_por) return `<span class="badge badge-azul">Validado ✓</span>`;
+    if (fonte === 'MS-CAB' || fonte === 'MS-GVS') return `<span class="badge badge-verde">Min. Saúde</span>`;
+    return `<span class="badge badge-amarelo">Não validado</span>`;
+  }
+
+  function atualizarHipoteses(hipoteses, detalhadas) {
     const ul = document.getElementById('lista-hipoteses');
-    ul.innerHTML = hipoteses.map(h => `<li>${h}</li>`).join('');
+    if (detalhadas && detalhadas.length) {
+      ul.innerHTML = detalhadas.map(h =>
+        `<li>${h.nome}${badgeHTML(h.fonte, h.validado_por)}</li>`
+      ).join('');
+    } else {
+      ul.innerHTML = hipoteses.map(h => `<li>${h}</li>`).join('');
+    }
   }
 
   function mostrarPerguntaAtual() {
@@ -542,7 +580,8 @@
       const dados = await res.json();
       if (dados.erro) throw new Error(dados.erro);
 
-      atualizarHipoteses(dados.hipoteses || []);
+      hipoteses_detalhadas_finais = dados.hipoteses_detalhadas || [];
+      atualizarHipoteses(dados.hipoteses || [], dados.hipoteses_detalhadas || []);
       hipoteses_finais = dados.hipoteses || [];
       condutas_sugeridas = dados.condutas_sugeridas || [];
       urgencia_confirmada = dados.nivel_urgencia_sugerido || 1;
@@ -562,8 +601,11 @@
   // ── Tela 3: Conduta ──────────────────────────────
   function irParaConduta() {
     const cards = document.getElementById('cards-hipoteses');
-    cards.innerHTML = hipoteses_finais.map(h =>
-      `<div class="card-hipotese"><h3>${h}</h3></div>`
+    const fonte = hipoteses_detalhadas_finais.length
+      ? hipoteses_detalhadas_finais
+      : hipoteses_finais.map(h => ({ nome: h, fonte: '', validado_por: null }));
+    cards.innerHTML = fonte.map(h =>
+      `<div class="card-hipotese"><h3>${h.nome}${badgeHTML(h.fonte, h.validado_por)}</h3></div>`
     ).join('');
 
     const destaque = document.getElementById('conduta-destaque');
@@ -634,6 +676,7 @@
     respostas_anteriores = []; perguntas_disponiveis = [];
     pergunta_atual_index = 0; urgencia_confirmada = null;
     condutas_sugeridas = []; hipoteses_finais = [];
+    hipoteses_detalhadas_finais = [];
 
     mostrarTela('tela-paciente');
   }
