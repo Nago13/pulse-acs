@@ -309,7 +309,7 @@
   <label for="idade">Age</label>
   <input type="number" id="idade" min="0" max="120" placeholder="Years" />
 
-  <label>Sex</label>
+  <label>Biological sex</label>
   <div class="radio-group">
     <label><input type="radio" name="sexo" value="M" /> Male</label>
     <label><input type="radio" name="sexo" value="F" /> Female</label>
@@ -371,7 +371,10 @@
 <div id="tela-entrevista" class="tela">
   <h2>Interview</h2>
 
-  <div class="hipoteses-box">
+  <div id="hipoteses-placeholder" style="text-align:center; font-size:13px; color:#999; padding:12px 0; margin-bottom:18px;">
+    Gathering information... hypotheses will appear after 4 answers.
+  </div>
+  <div class="hipoteses-box" id="hipoteses-box" style="display:none;">
     <p>Hypotheses under evaluation</p>
     <ul id="lista-hipoteses"></ul>
   </div>
@@ -457,6 +460,7 @@
   let hipoteses_finais = [];
   let hipoteses_detalhadas_finais = [];
   let resposta_selecionada = null;
+  let respostasContadas = 0;
 
   // ── Navegação entre telas ────────────────────────
   function mostrarTela(id) {
@@ -527,6 +531,9 @@
   }
 
   function atualizarHipoteses(hipoteses, detalhadas) {
+    if (respostasContadas < 4) return;
+    document.getElementById('hipoteses-placeholder').style.display = 'none';
+    document.getElementById('hipoteses-box').style.display = 'block';
     const ul = document.getElementById('lista-hipoteses');
     if (detalhadas && detalhadas.length) {
       ul.innerHTML = detalhadas.map(h =>
@@ -581,6 +588,7 @@
     const pergunta = perguntas_disponiveis[0];
     respostas_anteriores.push({ pergunta, resposta });
     perguntas_disponiveis.shift();
+    respostasContadas++;
 
     try {
       const res = await fetch('/atualizar', {
@@ -687,7 +695,7 @@
     respostas_anteriores = []; perguntas_disponiveis = [];
     pergunta_atual_index = 0; urgencia_confirmada = null;
     condutas_sugeridas = []; hipoteses_finais = [];
-    hipoteses_detalhadas_finais = [];
+    hipoteses_detalhadas_finais = []; respostasContadas = 0;
 
     mostrarTela('tela-paciente');
   }

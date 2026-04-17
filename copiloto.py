@@ -19,11 +19,18 @@ DATA_DIR.mkdir(exist_ok=True)
 def iniciar_visita(paciente: dict, observacao_inicial: str) -> dict:
     vetor = model.encode(observacao_inicial).tolist()
 
+    sexo_paciente = paciente.get("sexo", "")
+
     filtro = Filter(must=[Field("regioes").any_of([paciente["estado"], "todos"])])
-    resultados = client.points.search(COLECAO, vetor, limit=3, filter=filtro)
+    resultados = client.points.search(COLECAO, vetor, limit=10, filter=filtro)
 
     if not resultados:
-        resultados = client.points.search(COLECAO, vetor, limit=3)
+        resultados = client.points.search(COLECAO, vetor, limit=10)
+
+    if sexo_paciente:
+        resultados = [r for r in resultados
+                      if r.payload.get("sexo_aplicavel", "todos") in ("todos", sexo_paciente)]
+    resultados = resultados[:3]
 
     hipoteses = []
     hipoteses_detalhadas = []
@@ -63,8 +70,15 @@ def atualizar_visita(
         f"{r['pergunta']}: {r['resposta']}." for r in respostas_anteriores
     )
 
+    sexo_paciente = paciente.get("sexo", "")
+
     vetor = model.encode(contexto_completo).tolist()
-    resultados = client.points.search(COLECAO, vetor, limit=3)
+    resultados = client.points.search(COLECAO, vetor, limit=10)
+
+    if sexo_paciente:
+        resultados = [r for r in resultados
+                      if r.payload.get("sexo_aplicavel", "todos") in ("todos", sexo_paciente)]
+    resultados = resultados[:3]
 
     perguntas_ja_feitas = {r["pergunta"] for r in respostas_anteriores}
 
