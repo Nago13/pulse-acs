@@ -1,10 +1,44 @@
 from flask import Flask, request, jsonify, render_template
 from copiloto import iniciar_visita, atualizar_visita, fechar_visita
 import json
+import subprocess
+import sys
 from datetime import datetime
 from pathlib import Path
 
 app = Flask(__name__)
+
+
+def seed_if_empty():
+    try:
+        from actian_vectorai import VectorAIClient
+        import os
+        host = os.getenv("VECTORAI_HOST", "localhost")
+        port = os.getenv("VECTORAI_PORT", "50051")
+        client = VectorAIClient(f"{host}:{port}")
+        client.connect()
+
+        if client.collection_exists("conhecimento_clinico"):
+            count = client.count("conhecimento_clinico")
+            if count > 0:
+                print(f"[Pulse] Knowledge base ready: {count} conditions loaded.")
+                return
+
+        print("[Pulse] Knowledge base is empty. Running seed...")
+        result = subprocess.run(
+            [sys.executable, "seed_database.py"],
+            capture_output=True,
+            text=True
+        )
+        if result.returncode == 0:
+            print("[Pulse] Knowledge base populated successfully.")
+        else:
+            print(f"[Pulse] Seed failed: {result.stderr}")
+    except Exception as e:
+        print(f"[Pulse] Could not check/seed database: {e}")
+
+
+seed_if_empty()
 
 DATA_DIR = Path(__file__).parent / "data"
 SYNC_DIR = DATA_DIR / "sincronizados"
