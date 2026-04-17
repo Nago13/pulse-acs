@@ -682,20 +682,33 @@
 
   // ── Tela 4: Confirmado ───────────────────────────
   function novoAtendimento() {
+    // Reset form fields
     document.getElementById('nome').value = '';
     document.getElementById('idade').value = '';
-    document.querySelector('input[name="sexo"]:checked') &&
-      (document.querySelector('input[name="sexo"]:checked').checked = false);
+    document.querySelectorAll('input[name="sexo"]').forEach(r => r.checked = false);
     document.getElementById('estado').value = '';
     document.getElementById('observacao').value = '';
     document.querySelectorAll('.check-group input').forEach(cb => cb.checked = false);
     document.getElementById('alerta-sync').innerHTML = '';
 
-    id_visita = null; paciente = null; observacao_inicial = null;
-    respostas_anteriores = []; perguntas_disponiveis = [];
-    pergunta_atual_index = 0; urgencia_confirmada = null;
-    condutas_sugeridas = []; hipoteses_finais = [];
-    hipoteses_detalhadas_finais = []; respostasContadas = 0;
+    // Reset hypothesis box to initial placeholder state
+    document.getElementById('hipoteses-placeholder').style.display = 'block';
+    document.getElementById('hipoteses-box').style.display = 'none';
+    document.getElementById('lista-hipoteses').innerHTML = '';
+
+    // Reset all session state
+    id_visita = null;
+    paciente = {};
+    observacao_inicial = "";
+    respostas_anteriores = [];
+    pergunta_atual_index = 0;
+    perguntas_disponiveis = [];
+    urgencia_confirmada = null;
+    condutas_sugeridas = [];
+    hipoteses_finais = [];
+    hipoteses_detalhadas_finais = [];
+    resposta_selecionada = null;
+    respostasContadas = 0;
 
     mostrarTela('tela-paciente');
   }
