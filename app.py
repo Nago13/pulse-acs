@@ -40,7 +40,9 @@ def seed_if_empty():
         print(f"[Pulse] Could not check/seed database: {e}")
 
 
-seed_if_empty()
+import os
+if os.environ.get("WERKZEUG_RUN_MAIN") != "true":
+    seed_if_empty()
 
 DATA_DIR = Path(__file__).parent / "data"
 SYNC_DIR = DATA_DIR / "sincronizados"
