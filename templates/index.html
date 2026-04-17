@@ -419,6 +419,12 @@
   <textarea id="conduta-real" rows="4" placeholder="Record the action taken by the health worker..."></textarea>
 
   <button class="btn btn-verde" onclick="registrarAtendimento()">Save visit</button>
+
+  <p style="font-size:12px; color:#aaa; text-align:center; margin-top:24px; line-height:1.7;">
+    Clinical knowledge base sourced from official Brazil Ministry of Health protocols.<br>
+    64 of 75 conditions reference peer-reviewed government publications (SVS/MS, DAB/MS).<br>
+    11 conditions are AI-generated and pending clinical validation.
+  </p>
 </div>
 
 
@@ -509,17 +515,22 @@
   }
 
   // ── Tela 2: Hipóteses e perguntas ───────────────
-  function badgeHTML(fonte, validado_por) {
+  function badgeHTML(fonte, validado_por, fonte_url) {
     if (validado_por) return `<span class="badge badge-azul">Validated ✓</span>`;
-    if (fonte === 'MS-CAB' || fonte === 'MS-GVS') return `<span class="badge badge-verde">Min. of Health</span>`;
-    return `<span class="badge badge-amarelo">Not validated</span>`;
+    if (fonte && (fonte.includes('GVS') || fonte.includes('CAB') || fonte.includes('MoH'))) {
+      if (fonte_url) {
+        return `<a href="${fonte_url}" target="_blank" rel="noopener" class="badge badge-verde" style="text-decoration:none;">MoH Protocol ↗</a>`;
+      }
+      return `<span class="badge badge-verde">MoH Protocol</span>`;
+    }
+    return `<span class="badge badge-amarelo">Pending validation</span>`;
   }
 
   function atualizarHipoteses(hipoteses, detalhadas) {
     const ul = document.getElementById('lista-hipoteses');
     if (detalhadas && detalhadas.length) {
       ul.innerHTML = detalhadas.map(h =>
-        `<li>${h.nome}${badgeHTML(h.fonte, h.validado_por)}</li>`
+        `<li>${h.nome}${badgeHTML(h.fonte, h.validado_por, h.fonte_url)}</li>`
       ).join('');
     } else {
       ul.innerHTML = hipoteses.map(h => `<li>${h}</li>`).join('');
@@ -603,9 +614,9 @@
     const cards = document.getElementById('cards-hipoteses');
     const fonte = hipoteses_detalhadas_finais.length
       ? hipoteses_detalhadas_finais
-      : hipoteses_finais.map(h => ({ nome: h, fonte: '', validado_por: null }));
+      : hipoteses_finais.map(h => ({ nome: h, fonte: '', fonte_url: '', validado_por: null }));
     cards.innerHTML = fonte.map(h =>
-      `<div class="card-hipotese"><h3>${h.nome}${badgeHTML(h.fonte, h.validado_por)}</h3></div>`
+      `<div class="card-hipotese"><h3>${h.nome}${badgeHTML(h.fonte, h.validado_por, h.fonte_url)}</h3></div>`
     ).join('');
 
     const destaque = document.getElementById('conduta-destaque');

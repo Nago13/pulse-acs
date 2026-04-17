@@ -36,6 +36,7 @@ def iniciar_visita(paciente: dict, observacao_inicial: str) -> dict:
         hipoteses_detalhadas.append({
             "nome": payload["nome"],
             "fonte": payload.get("fonte", ""),
+            "fonte_url": payload.get("fonte_url", ""),
             "validado_por": payload.get("validado_por"),
         })
         for pergunta in payload.get("perguntas_chave", []):
@@ -80,6 +81,7 @@ def atualizar_visita(
         hipoteses_detalhadas.append({
             "nome": payload["nome"],
             "fonte": payload.get("fonte", ""),
+            "fonte_url": payload.get("fonte_url", ""),
             "validado_por": payload.get("validado_por"),
         })
         condutas_sugeridas.append(payload["conduta_sugerida"])
