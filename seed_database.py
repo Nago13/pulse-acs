@@ -19,6 +19,40 @@ client.collections.create(
     vectors_config=VectorParams(size=384, distance=DistanceMetric.COSINE)
 )
 
+# ── Source reference constants ──────────────────────────────────────────────
+GVS     = "Brazil MoH — Health Surveillance Guide, 5th ed. (SVS/MS, 2022), 1,126p."
+GVS_URL = "https://bvsms.saude.gov.br/bvs/publicacoes/guia_vigilancia_saude_5ed_rev_atual.pdf"
+
+CAB25     = "Brazil MoH — Primary Care Notebook No. 25: Respiratory Diseases (DAB/MS, 2010)"
+CAB25_URL = ""
+
+CAB28     = "Brazil MoH — Primary Care Notebook No. 28: Spontaneous Demand Care (DAB/MS, 2013)"
+CAB28_URL = "https://bvsms.saude.gov.br/bvs/publicacoes/acolhimento_demanda_espontanea_queixas_comuns_cab28.pdf"
+
+CAB32     = "Brazil MoH — Primary Care Notebook No. 32: Prenatal Care (DAB/MS, 2012)"
+CAB32_URL = "https://bvsms.saude.gov.br/bvs/publicacoes/cadernos_atencao_basica_32_prenatal.pdf"
+
+CAB33     = "Brazil MoH — Primary Care Notebook No. 33: Child Health (DAB/MS, 2012)"
+CAB33_URL = "https://bvsms.saude.gov.br/bvs/publicacoes/saude_crianca_crescimento_desenvolvimento.pdf"
+
+CAB34     = "Brazil MoH — Primary Care Notebook No. 34: Mental Health (DAB/MS, 2013)"
+CAB34_URL = "https://bvsms.saude.gov.br/bvs/publicacoes/cadernos_atencao_basica_34_saude_mental.pdf"
+
+CAB35     = "Brazil MoH — Primary Care Notebook No. 35: Chronic Disease Care (DAB/MS, 2014)"
+CAB35_URL = "https://bvsms.saude.gov.br/bvs/publicacoes/estrategias_cuidado_pessoa_doenca_cronica.pdf"
+
+CAB36     = "Brazil MoH — Primary Care Notebook No. 36: Diabetes Mellitus (DAB/MS, 2013)"
+CAB36_URL = "https://bvsms.saude.gov.br/bvs/publicacoes/estrategias_cuidado_pessoa_diabetes_mellitus_cab36.pdf"
+
+CAB37     = "Brazil MoH — Primary Care Notebook No. 37: Hypertension (DAB/MS, 2013)"
+CAB37_URL = "https://bvsms.saude.gov.br/bvs/publicacoes/estrategias_cuidado_pessoa_doenca_cronica_hipertensao_arterial_cab37.pdf"
+
+CAB41     = "Brazil MoH — Primary Care Notebook No. 41: Occupational Health (DAB/MS, 2018)"
+CAB41_URL = "https://renastonline.ensp.fiocruz.br/sites/default/files/arquivos/recursos/cadernos_da_atecao_basica_41_saude_do_trabalhador.pdf"
+
+IA     = "IA-pendente-validacao"
+IA_URL = ""
+
 condicoes = [
     # ── Original 25 conditions ──────────────────────────────────────────────
     {
@@ -34,7 +68,8 @@ condicoes = [
         "urgencia": 2,
         "regioes": ["todos"],
         "faixa_etaria": "all",
-        "fonte": "MS-GVS",
+        "fonte": GVS,
+        "fonte_url": GVS_URL,
         "validado_por": None,
     },
     {
@@ -50,7 +85,8 @@ condicoes = [
         "urgencia": 3,
         "regioes": ["todos"],
         "faixa_etaria": "all",
-        "fonte": "MS-GVS",
+        "fonte": GVS,
+        "fonte_url": GVS_URL,
         "validado_por": None,
     },
     {
@@ -66,7 +102,8 @@ condicoes = [
         "urgencia": 2,
         "regioes": ["AM", "PA", "MT", "RO", "AC", "RR", "AP", "TO", "MA"],
         "faixa_etaria": "all",
-        "fonte": "MS-GVS",
+        "fonte": GVS,
+        "fonte_url": GVS_URL,
         "validado_por": None,
     },
     {
@@ -82,7 +119,8 @@ condicoes = [
         "urgencia": 3,
         "regioes": ["todos"],
         "faixa_etaria": "all",
-        "fonte": "MS-GVS",
+        "fonte": GVS,
+        "fonte_url": GVS_URL,
         "validado_por": None,
     },
     {
@@ -98,7 +136,8 @@ condicoes = [
         "urgencia": 2,
         "regioes": ["todos"],
         "faixa_etaria": "all",
-        "fonte": "MS-GVS",
+        "fonte": GVS,
+        "fonte_url": GVS_URL,
         "validado_por": None,
     },
     {
@@ -114,7 +153,8 @@ condicoes = [
         "urgencia": 2,
         "regioes": ["todos"],
         "faixa_etaria": "all",
-        "fonte": "MS-GVS",
+        "fonte": GVS,
+        "fonte_url": GVS_URL,
         "validado_por": None,
     },
     {
@@ -130,7 +170,8 @@ condicoes = [
         "urgencia": 2,
         "regioes": ["todos"],
         "faixa_etaria": "all",
-        "fonte": "MS-GVS",
+        "fonte": GVS,
+        "fonte_url": GVS_URL,
         "validado_por": None,
     },
     {
@@ -146,7 +187,8 @@ condicoes = [
         "urgencia": 2,
         "regioes": ["todos"],
         "faixa_etaria": "all",
-        "fonte": "MS-CAB",
+        "fonte": CAB25,
+        "fonte_url": CAB25_URL,
         "validado_por": None,
     },
     {
@@ -162,7 +204,8 @@ condicoes = [
         "urgencia": 3,
         "regioes": ["todos"],
         "faixa_etaria": "adult",
-        "fonte": "MS-CAB",
+        "fonte": CAB37,
+        "fonte_url": CAB37_URL,
         "validado_por": None,
     },
     {
@@ -178,7 +221,8 @@ condicoes = [
         "urgencia": 3,
         "regioes": ["todos"],
         "faixa_etaria": "adult",
-        "fonte": "MS-CAB",
+        "fonte": CAB37,
+        "fonte_url": CAB37_URL,
         "validado_por": None,
     },
     {
@@ -194,7 +238,8 @@ condicoes = [
         "urgencia": 2,
         "regioes": ["todos"],
         "faixa_etaria": "adult",
-        "fonte": "MS-CAB",
+        "fonte": CAB37,
+        "fonte_url": CAB37_URL,
         "validado_por": None,
     },
     {
@@ -210,7 +255,8 @@ condicoes = [
         "urgencia": 2,
         "regioes": ["todos"],
         "faixa_etaria": "adult",
-        "fonte": "MS-CAB",
+        "fonte": CAB36,
+        "fonte_url": CAB36_URL,
         "validado_por": None,
     },
     {
@@ -226,7 +272,8 @@ condicoes = [
         "urgencia": 3,
         "regioes": ["todos"],
         "faixa_etaria": "adult",
-        "fonte": "MS-CAB",
+        "fonte": CAB32,
+        "fonte_url": CAB32_URL,
         "validado_por": None,
     },
     {
@@ -242,7 +289,8 @@ condicoes = [
         "urgencia": 2,
         "regioes": ["todos"],
         "faixa_etaria": "child",
-        "fonte": "MS-CAB",
+        "fonte": CAB33,
+        "fonte_url": CAB33_URL,
         "validado_por": None,
     },
     {
@@ -258,7 +306,8 @@ condicoes = [
         "urgencia": 2,
         "regioes": ["todos"],
         "faixa_etaria": "all",
-        "fonte": "MS-CAB",
+        "fonte": CAB33,
+        "fonte_url": CAB33_URL,
         "validado_por": None,
     },
     {
@@ -274,7 +323,8 @@ condicoes = [
         "urgencia": 3,
         "regioes": ["todos"],
         "faixa_etaria": "all",
-        "fonte": "MS-CAB",
+        "fonte": CAB25,
+        "fonte_url": CAB25_URL,
         "validado_por": None,
     },
     {
@@ -290,7 +340,8 @@ condicoes = [
         "urgencia": 3,
         "regioes": ["todos"],
         "faixa_etaria": "all",
-        "fonte": "MS-GVS",
+        "fonte": GVS,
+        "fonte_url": GVS_URL,
         "validado_por": None,
     },
     {
@@ -306,7 +357,8 @@ condicoes = [
         "urgencia": 3,
         "regioes": ["todos"],
         "faixa_etaria": "adult",
-        "fonte": "MS-GVS",
+        "fonte": CAB41,
+        "fonte_url": CAB41_URL,
         "validado_por": None,
     },
     {
@@ -322,7 +374,8 @@ condicoes = [
         "urgencia": 2,
         "regioes": ["BA", "MG", "MA", "PA", "PI", "PE", "CE", "RN", "PB", "AL", "SE", "TO"],
         "faixa_etaria": "all",
-        "fonte": "MS-GVS",
+        "fonte": GVS,
+        "fonte_url": GVS_URL,
         "validado_por": None,
     },
     {
@@ -338,7 +391,8 @@ condicoes = [
         "urgencia": 2,
         "regioes": ["MG", "GO", "BA", "PI", "CE", "PE", "PB", "RN", "MA", "TO", "MT", "MS"],
         "faixa_etaria": "all",
-        "fonte": "MS-GVS",
+        "fonte": GVS,
+        "fonte_url": GVS_URL,
         "validado_por": None,
     },
     {
@@ -354,7 +408,8 @@ condicoes = [
         "urgencia": 2,
         "regioes": ["MG", "BA", "PE", "AL", "SE", "PB", "RN", "CE", "MA", "ES", "RJ", "SP"],
         "faixa_etaria": "all",
-        "fonte": "MS-GVS",
+        "fonte": GVS,
+        "fonte_url": GVS_URL,
         "validado_por": None,
     },
     {
@@ -370,7 +425,8 @@ condicoes = [
         "urgencia": 2,
         "regioes": ["todos"],
         "faixa_etaria": "all",
-        "fonte": "MS-GVS",
+        "fonte": GVS,
+        "fonte_url": GVS_URL,
         "validado_por": None,
     },
     {
@@ -386,7 +442,8 @@ condicoes = [
         "urgencia": 3,
         "regioes": ["todos"],
         "faixa_etaria": "all",
-        "fonte": "MS-GVS",
+        "fonte": GVS,
+        "fonte_url": GVS_URL,
         "validado_por": None,
     },
     {
@@ -402,7 +459,8 @@ condicoes = [
         "urgencia": 2,
         "regioes": ["todos"],
         "faixa_etaria": "child",
-        "fonte": "MS-CAB",
+        "fonte": CAB33,
+        "fonte_url": CAB33_URL,
         "validado_por": None,
     },
     {
@@ -418,7 +476,8 @@ condicoes = [
         "urgencia": 1,
         "regioes": ["todos"],
         "faixa_etaria": "all",
-        "fonte": "IA-pendente-validacao",
+        "fonte": IA,
+        "fonte_url": IA_URL,
         "validado_por": None,
     },
 
@@ -436,7 +495,8 @@ condicoes = [
         "urgencia": 2,
         "regioes": ["todos"],
         "faixa_etaria": "adult",
-        "fonte": "MS-CAB",
+        "fonte": CAB32,
+        "fonte_url": CAB32_URL,
         "validado_por": None,
     },
     {
@@ -452,7 +512,8 @@ condicoes = [
         "urgencia": 3,
         "regioes": ["todos"],
         "faixa_etaria": "adult",
-        "fonte": "MS-CAB",
+        "fonte": CAB32,
+        "fonte_url": CAB32_URL,
         "validado_por": None,
     },
     {
@@ -468,7 +529,8 @@ condicoes = [
         "urgencia": 3,
         "regioes": ["todos"],
         "faixa_etaria": "adult",
-        "fonte": "MS-CAB",
+        "fonte": CAB32,
+        "fonte_url": CAB32_URL,
         "validado_por": None,
     },
     {
@@ -484,7 +546,8 @@ condicoes = [
         "urgencia": 2,
         "regioes": ["todos"],
         "faixa_etaria": "adult",
-        "fonte": "MS-CAB",
+        "fonte": CAB32,
+        "fonte_url": CAB32_URL,
         "validado_por": None,
     },
     {
@@ -500,7 +563,8 @@ condicoes = [
         "urgencia": 2,
         "regioes": ["todos"],
         "faixa_etaria": "adult",
-        "fonte": "MS-CAB",
+        "fonte": CAB34,
+        "fonte_url": CAB34_URL,
         "validado_por": None,
     },
 
@@ -518,7 +582,8 @@ condicoes = [
         "urgencia": 2,
         "regioes": ["todos"],
         "faixa_etaria": "child",
-        "fonte": "MS-CAB",
+        "fonte": CAB25,
+        "fonte_url": CAB25_URL,
         "validado_por": None,
     },
     {
@@ -534,7 +599,8 @@ condicoes = [
         "urgencia": 2,
         "regioes": ["todos"],
         "faixa_etaria": "child",
-        "fonte": "MS-GVS",
+        "fonte": GVS,
+        "fonte_url": GVS_URL,
         "validado_por": None,
     },
     {
@@ -550,7 +616,8 @@ condicoes = [
         "urgencia": 2,
         "regioes": ["todos"],
         "faixa_etaria": "child",
-        "fonte": "MS-GVS",
+        "fonte": GVS,
+        "fonte_url": GVS_URL,
         "validado_por": None,
     },
     {
@@ -566,7 +633,8 @@ condicoes = [
         "urgencia": 1,
         "regioes": ["todos"],
         "faixa_etaria": "child",
-        "fonte": "MS-CAB",
+        "fonte": GVS,
+        "fonte_url": GVS_URL,
         "validado_por": None,
     },
     {
@@ -582,7 +650,8 @@ condicoes = [
         "urgencia": 1,
         "regioes": ["todos"],
         "faixa_etaria": "child",
-        "fonte": "MS-CAB",
+        "fonte": CAB28,
+        "fonte_url": CAB28_URL,
         "validado_por": None,
     },
     {
@@ -598,7 +667,8 @@ condicoes = [
         "urgencia": 1,
         "regioes": ["todos"],
         "faixa_etaria": "child",
-        "fonte": "MS-CAB",
+        "fonte": CAB33,
+        "fonte_url": CAB33_URL,
         "validado_por": None,
     },
     {
@@ -614,7 +684,8 @@ condicoes = [
         "urgencia": 1,
         "regioes": ["todos"],
         "faixa_etaria": "all",
-        "fonte": "MS-CAB",
+        "fonte": CAB33,
+        "fonte_url": CAB33_URL,
         "validado_por": None,
     },
 
@@ -632,7 +703,8 @@ condicoes = [
         "urgencia": 2,
         "regioes": ["todos"],
         "faixa_etaria": "adult",
-        "fonte": "MS-CAB",
+        "fonte": CAB37,
+        "fonte_url": CAB37_URL,
         "validado_por": None,
     },
     {
@@ -648,7 +720,8 @@ condicoes = [
         "urgencia": 2,
         "regioes": ["todos"],
         "faixa_etaria": "adult",
-        "fonte": "MS-CAB",
+        "fonte": CAB35,
+        "fonte_url": CAB35_URL,
         "validado_por": None,
     },
     {
@@ -664,7 +737,8 @@ condicoes = [
         "urgencia": 2,
         "regioes": ["todos"],
         "faixa_etaria": "adult",
-        "fonte": "MS-CAB",
+        "fonte": CAB35,
+        "fonte_url": CAB35_URL,
         "validado_por": None,
     },
     {
@@ -680,7 +754,8 @@ condicoes = [
         "urgencia": 2,
         "regioes": ["todos"],
         "faixa_etaria": "all",
-        "fonte": "MS-CAB",
+        "fonte": CAB35,
+        "fonte_url": CAB35_URL,
         "validado_por": None,
     },
     {
@@ -696,7 +771,8 @@ condicoes = [
         "urgencia": 1,
         "regioes": ["todos"],
         "faixa_etaria": "adult",
-        "fonte": "MS-CAB",
+        "fonte": CAB35,
+        "fonte_url": CAB35_URL,
         "validado_por": None,
     },
     {
@@ -712,7 +788,8 @@ condicoes = [
         "urgencia": 1,
         "regioes": ["todos"],
         "faixa_etaria": "adult",
-        "fonte": "MS-CAB",
+        "fonte": CAB35,
+        "fonte_url": CAB35_URL,
         "validado_por": None,
     },
 
@@ -730,7 +807,8 @@ condicoes = [
         "urgencia": 3,
         "regioes": ["todos"],
         "faixa_etaria": "all",
-        "fonte": "IA-pendente-validacao",
+        "fonte": IA,
+        "fonte_url": IA_URL,
         "validado_por": None,
     },
     {
@@ -746,7 +824,8 @@ condicoes = [
         "urgencia": 3,
         "regioes": ["todos"],
         "faixa_etaria": "all",
-        "fonte": "IA-pendente-validacao",
+        "fonte": IA,
+        "fonte_url": IA_URL,
         "validado_por": None,
     },
     {
@@ -762,7 +841,8 @@ condicoes = [
         "urgencia": 2,
         "regioes": ["todos"],
         "faixa_etaria": "all",
-        "fonte": "MS-CAB",
+        "fonte": CAB34,
+        "fonte_url": CAB34_URL,
         "validado_por": None,
     },
     {
@@ -778,7 +858,8 @@ condicoes = [
         "urgencia": 2,
         "regioes": ["todos"],
         "faixa_etaria": "adult",
-        "fonte": "MS-CAB",
+        "fonte": CAB34,
+        "fonte_url": CAB34_URL,
         "validado_por": None,
     },
     {
@@ -794,7 +875,8 @@ condicoes = [
         "urgencia": 1,
         "regioes": ["todos"],
         "faixa_etaria": "adult",
-        "fonte": "IA-pendente-validacao",
+        "fonte": IA,
+        "fonte_url": IA_URL,
         "validado_por": None,
     },
 
@@ -812,7 +894,8 @@ condicoes = [
         "urgencia": 1,
         "regioes": ["todos"],
         "faixa_etaria": "all",
-        "fonte": "MS-CAB",
+        "fonte": CAB28,
+        "fonte_url": CAB28_URL,
         "validado_por": None,
     },
     {
@@ -828,7 +911,8 @@ condicoes = [
         "urgencia": 1,
         "regioes": ["todos"],
         "faixa_etaria": "all",
-        "fonte": "MS-CAB",
+        "fonte": CAB28,
+        "fonte_url": CAB28_URL,
         "validado_por": None,
     },
     {
@@ -844,7 +928,8 @@ condicoes = [
         "urgencia": 2,
         "regioes": ["todos"],
         "faixa_etaria": "all",
-        "fonte": "IA-pendente-validacao",
+        "fonte": IA,
+        "fonte_url": IA_URL,
         "validado_por": None,
     },
     {
@@ -860,7 +945,8 @@ condicoes = [
         "urgencia": 1,
         "regioes": ["todos"],
         "faixa_etaria": "all",
-        "fonte": "IA-pendente-validacao",
+        "fonte": IA,
+        "fonte_url": IA_URL,
         "validado_por": None,
     },
 
@@ -878,7 +964,8 @@ condicoes = [
         "urgencia": 3,
         "regioes": ["AM", "PA", "MT", "RO", "AC", "RR", "AP", "TO", "MA", "GO", "MG", "BA", "ES", "SP", "PR", "RS", "SC"],
         "faixa_etaria": "all",
-        "fonte": "MS-GVS",
+        "fonte": GVS,
+        "fonte_url": GVS_URL,
         "validado_por": None,
     },
     {
@@ -894,7 +981,8 @@ condicoes = [
         "urgencia": 3,
         "regioes": ["SP", "SC", "RS", "PR", "MG", "GO", "MT", "MS", "RJ"],
         "faixa_etaria": "adult",
-        "fonte": "MS-GVS",
+        "fonte": GVS,
+        "fonte_url": GVS_URL,
         "validado_por": None,
     },
 
@@ -912,7 +1000,8 @@ condicoes = [
         "urgencia": 2,
         "regioes": ["todos"],
         "faixa_etaria": "all",
-        "fonte": "MS-CAB",
+        "fonte": CAB28,
+        "fonte_url": CAB28_URL,
         "validado_por": None,
     },
     {
@@ -928,7 +1017,8 @@ condicoes = [
         "urgencia": 2,
         "regioes": ["todos"],
         "faixa_etaria": "all",
-        "fonte": "MS-CAB",
+        "fonte": CAB28,
+        "fonte_url": CAB28_URL,
         "validado_por": None,
     },
     {
@@ -944,7 +1034,8 @@ condicoes = [
         "urgencia": 2,
         "regioes": ["todos"],
         "faixa_etaria": "all",
-        "fonte": "MS-CAB",
+        "fonte": CAB28,
+        "fonte_url": CAB28_URL,
         "validado_por": None,
     },
     {
@@ -960,7 +1051,8 @@ condicoes = [
         "urgencia": 3,
         "regioes": ["todos"],
         "faixa_etaria": "all",
-        "fonte": "MS-CAB",
+        "fonte": CAB28,
+        "fonte_url": CAB28_URL,
         "validado_por": None,
     },
     {
@@ -976,7 +1068,8 @@ condicoes = [
         "urgencia": 3,
         "regioes": ["todos"],
         "faixa_etaria": "child",
-        "fonte": "MS-CAB",
+        "fonte": CAB28,
+        "fonte_url": CAB28_URL,
         "validado_por": None,
     },
     {
@@ -992,7 +1085,8 @@ condicoes = [
         "urgencia": 3,
         "regioes": ["todos"],
         "faixa_etaria": "all",
-        "fonte": "MS-CAB",
+        "fonte": CAB28,
+        "fonte_url": CAB28_URL,
         "validado_por": None,
     },
     {
@@ -1008,7 +1102,8 @@ condicoes = [
         "urgencia": 3,
         "regioes": ["todos"],
         "faixa_etaria": "adult",
-        "fonte": "MS-CAB",
+        "fonte": CAB36,
+        "fonte_url": CAB36_URL,
         "validado_por": None,
     },
     {
@@ -1024,7 +1119,8 @@ condicoes = [
         "urgencia": 3,
         "regioes": ["todos"],
         "faixa_etaria": "all",
-        "fonte": "IA-pendente-validacao",
+        "fonte": IA,
+        "fonte_url": IA_URL,
         "validado_por": None,
     },
     {
@@ -1040,7 +1136,8 @@ condicoes = [
         "urgencia": 3,
         "regioes": ["todos"],
         "faixa_etaria": "all",
-        "fonte": "MS-CAB",
+        "fonte": CAB37,
+        "fonte_url": CAB37_URL,
         "validado_por": None,
     },
 
@@ -1058,7 +1155,8 @@ condicoes = [
         "urgencia": 2,
         "regioes": ["todos"],
         "faixa_etaria": "all",
-        "fonte": "MS-CAB",
+        "fonte": CAB28,
+        "fonte_url": CAB28_URL,
         "validado_por": None,
     },
     {
@@ -1074,7 +1172,8 @@ condicoes = [
         "urgencia": 2,
         "regioes": ["todos"],
         "faixa_etaria": "all",
-        "fonte": "IA-pendente-validacao",
+        "fonte": IA,
+        "fonte_url": IA_URL,
         "validado_por": None,
     },
     {
@@ -1090,7 +1189,8 @@ condicoes = [
         "urgencia": 1,
         "regioes": ["todos"],
         "faixa_etaria": "all",
-        "fonte": "MS-CAB",
+        "fonte": CAB28,
+        "fonte_url": CAB28_URL,
         "validado_por": None,
     },
     {
@@ -1106,7 +1206,8 @@ condicoes = [
         "urgencia": 1,
         "regioes": ["todos"],
         "faixa_etaria": "all",
-        "fonte": "MS-CAB",
+        "fonte": CAB28,
+        "fonte_url": CAB28_URL,
         "validado_por": None,
     },
     {
@@ -1122,7 +1223,8 @@ condicoes = [
         "urgencia": 1,
         "regioes": ["todos"],
         "faixa_etaria": "all",
-        "fonte": "MS-CAB",
+        "fonte": CAB28,
+        "fonte_url": CAB28_URL,
         "validado_por": None,
     },
     {
@@ -1138,7 +1240,8 @@ condicoes = [
         "urgencia": 1,
         "regioes": ["todos"],
         "faixa_etaria": "all",
-        "fonte": "MS-CAB",
+        "fonte": CAB28,
+        "fonte_url": CAB28_URL,
         "validado_por": None,
     },
     {
@@ -1154,7 +1257,8 @@ condicoes = [
         "urgencia": 1,
         "regioes": ["todos"],
         "faixa_etaria": "adult",
-        "fonte": "IA-pendente-validacao",
+        "fonte": IA,
+        "fonte_url": IA_URL,
         "validado_por": None,
     },
     {
@@ -1170,7 +1274,8 @@ condicoes = [
         "urgencia": 2,
         "regioes": ["todos"],
         "faixa_etaria": "elderly",
-        "fonte": "MS-CAB",
+        "fonte": CAB28,
+        "fonte_url": CAB28_URL,
         "validado_por": None,
     },
 
@@ -1188,7 +1293,8 @@ condicoes = [
         "urgencia": 2,
         "regioes": ["todos"],
         "faixa_etaria": "all",
-        "fonte": "IA-pendente-validacao",
+        "fonte": IA,
+        "fonte_url": IA_URL,
         "validado_por": None,
     },
     {
@@ -1204,7 +1310,8 @@ condicoes = [
         "urgencia": 2,
         "regioes": ["todos"],
         "faixa_etaria": "adult",
-        "fonte": "MS-CAB",
+        "fonte": CAB35,
+        "fonte_url": CAB35_URL,
         "validado_por": None,
     },
     {
@@ -1220,7 +1327,8 @@ condicoes = [
         "urgencia": 2,
         "regioes": ["todos"],
         "faixa_etaria": "all",
-        "fonte": "MS-CAB",
+        "fonte": CAB28,
+        "fonte_url": CAB28_URL,
         "validado_por": None,
     },
     {
@@ -1236,7 +1344,8 @@ condicoes = [
         "urgencia": 2,
         "regioes": ["todos"],
         "faixa_etaria": "all",
-        "fonte": "IA-pendente-validacao",
+        "fonte": IA,
+        "fonte_url": IA_URL,
         "validado_por": None,
     },
 ]
@@ -1254,9 +1363,19 @@ client.points.upsert(COLECAO, points=points)
 # ── Summary ─────────────────────────────────────────────────────────────────
 contagem_fonte = Counter(c["fonte"] for c in condicoes)
 validadas = sum(1 for c in condicoes if c["validado_por"] is not None)
+com_url = sum(1 for c in condicoes if c.get("fonte_url"))
 
 print(f"\nTotal inserted: {len(condicoes)} conditions")
-print(f"  - MS-CAB: {contagem_fonte.get('MS-CAB', 0)} conditions")
-print(f"  - MS-GVS: {contagem_fonte.get('MS-GVS', 0)} conditions")
-print(f"  - IA-pendente-validacao: {contagem_fonte.get('IA-pendente-validacao', 0)} conditions")
-print(f"  - Validated by physician: {validadas} conditions")
+print(f"  - GVS (Health Surveillance Guide): {contagem_fonte.get(GVS, 0)} conditions")
+print(f"  - CAB 25 (Respiratory):            {contagem_fonte.get(CAB25, 0)} conditions")
+print(f"  - CAB 28 (Spontaneous Demand):     {contagem_fonte.get(CAB28, 0)} conditions")
+print(f"  - CAB 32 (Prenatal Care):          {contagem_fonte.get(CAB32, 0)} conditions")
+print(f"  - CAB 33 (Child Health):           {contagem_fonte.get(CAB33, 0)} conditions")
+print(f"  - CAB 34 (Mental Health):          {contagem_fonte.get(CAB34, 0)} conditions")
+print(f"  - CAB 35 (Chronic Disease):        {contagem_fonte.get(CAB35, 0)} conditions")
+print(f"  - CAB 36 (Diabetes):               {contagem_fonte.get(CAB36, 0)} conditions")
+print(f"  - CAB 37 (Hypertension):           {contagem_fonte.get(CAB37, 0)} conditions")
+print(f"  - CAB 41 (Occupational Health):    {contagem_fonte.get(CAB41, 0)} conditions")
+print(f"  - IA-pendente-validacao:           {contagem_fonte.get(IA, 0)} conditions")
+print(f"  - Validated by physician:          {validadas} conditions")
+print(f"  - With official source URL:        {com_url} conditions")
