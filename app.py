@@ -18,11 +18,13 @@ def seed_if_empty():
         client = VectorAIClient(f"{host}:{port}")
         client.connect()
 
-        if client.has_collection("conhecimento_clinico"):
+        try:
             count = client.count("conhecimento_clinico")
             if count > 0:
                 print(f"[Pulse] Knowledge base ready: {count} conditions loaded.")
                 return
+        except Exception:
+            pass
 
         print("[Pulse] Knowledge base is empty. Running seed...")
         result = subprocess.run(
