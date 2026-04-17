@@ -18,7 +18,7 @@ def seed_if_empty():
         client = VectorAIClient(f"{host}:{port}")
         client.connect()
 
-        if client.collection_exists("conhecimento_clinico"):
+        if client.has_collection("conhecimento_clinico"):
             count = client.count("conhecimento_clinico")
             if count > 0:
                 print(f"[Pulse] Knowledge base ready: {count} conditions loaded.")
