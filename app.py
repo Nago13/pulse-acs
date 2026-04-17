@@ -6,7 +6,7 @@ from pathlib import Path
 
 app = Flask(__name__)
 
-DATA_DIR = Path("C:/Users/pedro/OneDrive/Documentos/estudos/Claude/pulse/data")
+DATA_DIR = Path(__file__).parent / "data"
 SYNC_DIR = DATA_DIR / "sincronizados"
 DATA_DIR.mkdir(exist_ok=True)
 SYNC_DIR.mkdir(exist_ok=True)
