@@ -155,6 +155,24 @@ At the health center with internet: one tap syncs to supervising physician
 
 ## How to run
 
+### Option 1 — Docker (recommended, no setup required)
+
+**Requirements:** Docker Desktop
+
+```bash
+git clone https://github.com/Nago13/pulse-acs
+cd pulse-acs
+docker compose up
+```
+
+Wait about 2 minutes for the containers to start and the model to load.
+Then open `http://localhost:5000` in your browser.
+
+On first run, Pulse will automatically populate the clinical knowledge base.
+Everything runs locally — no internet connection required after setup.
+
+### Option 2 — Manual setup
+
 **Requirements:** Docker Desktop, Python 3.10+
 
 ```bash
@@ -164,13 +182,13 @@ cd actian-vectorAI-db-beta
 docker compose up -d
 
 # 2. Set up the project
-cd ../pulse
+cd ../pulse-acs
 python -m venv venv
 source venv/bin/activate  # Windows: venv\Scripts\activate
 pip install ../actian-vectorAI-db-beta/actian_vectorai-0.1.0b2-py3-none-any.whl
 pip install flask sentence-transformers
 
-# 3. Download the embedding model (one time only — works offline after)
+# 3. Download the embedding model (one time only)
 python download_modelo.py
 
 # 4. Populate the clinical knowledge base

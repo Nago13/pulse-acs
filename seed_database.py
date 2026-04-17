@@ -3,7 +3,10 @@ from sentence_transformers import SentenceTransformer
 from collections import Counter
 
 model = SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")
-client = VectorAIClient("localhost:50051")
+import os
+VECTORAI_HOST = os.getenv("VECTORAI_HOST", "localhost")
+VECTORAI_PORT = os.getenv("VECTORAI_PORT", "50051")
+client = VectorAIClient(f"{VECTORAI_HOST}:{VECTORAI_PORT}")
 client.connect()
 
 COLECAO = "conhecimento_clinico"

@@ -1,0 +1,27 @@
+services:
+  vectoraidb:
+    image: williamimoh/actian-vectorai-db:latest
+    container_name: vectoraidb
+    ports:
+      - "50051:50051"
+    volumes:
+      - vectorai_data:/data
+    restart: unless-stopped
+    stop_grace_period: 2m
+
+  pulse:
+    build: .
+    container_name: pulse
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./data:/app/data
+    depends_on:
+      - vectoraidb
+    restart: unless-stopped
+    environment:
+      - VECTORAI_HOST=vectoraidb
+      - VECTORAI_PORT=50051
+
+volumes:
+  vectorai_data:
