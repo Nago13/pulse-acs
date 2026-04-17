@@ -12,7 +12,7 @@ client = VectorAIClient(f"{VECTORAI_HOST}:{VECTORAI_PORT}")
 client.connect()
 
 COLECAO = "conhecimento_clinico"
-DATA_DIR = Path("C:/Users/pedro/OneDrive/Documentos/estudos/Claude/pulse/data")
+DATA_DIR = Path(__file__).parent / "data"
 DATA_DIR.mkdir(exist_ok=True)
 
 
